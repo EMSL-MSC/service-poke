@@ -1,0 +1,54 @@
+.\" See man groff_mdoc for template and other information.
+.Dd October 28, 2011
+.Os Linux
+.Dt SERVICE-POKE-SERVER 8 MSCF
+.Sh NAME
+.Nm service-poke-server
+.Nd service poke server
+.Sh SYNOPSIS
+service-poke-server [options]
+
+.Sh DESCRIPTION
+The service-poke server allows you to on demand kick off services and ensure not too many run.
+
+.Sh OPTIONS
+    -f socket_file_name    Name of the socket file the service poke server is listening on.
+    -i config.ini          Name of the file containing service configuration.
+    -D                     Daemonize.
+
+.Sh EXAMPLES
+
+An example config ini:
+    [backup]
+    command=dsmc -i
+
+    [svn_rsync]
+    command=cd /svn; rsync -avz -e ssh remoteuser@remotehost:/remote/dir .
+
+To start, simply specify a socket name and config file:
+    socket-poke-server -f /tmp/poke.sock -i /etc/service-poke.ini
+
+Poking a service:
+    socket-poke -f /tmp/poke.sock -s svn_rsync
+
+.Sh COMPATIBILITY
+This software was originally designed and built on the Intel x86_64 architecture running Redhat Linux Enterprise 5. While efforts have been made to ensure compatibility, your mileage may vary. If it does, please submit a bug report.
+.Sh SEE ALSO
+.nf
+.Xr service-poke 8
+Service Poke Wiki - https://svn.pnl.gov/esp
+.fi
+.Bl -tag -width Fl
+.Sh REPORT BUGS
+Please include the version information and problem description at 
+https://svn.pnl.gov/esp/newticket
+.Sh HISTORY
+First availability October 2011.
+.Sh BUGS
+Note, for the following URL to work, you must be logged into TRAC.
+https://svn.pnl.gov/esp/report/1
+.Sh AUTHORS
+MSCF TEAM (Dave Cowley - PM)        Battelle Pacific Northwest Laboratory
+.br
+MSCF TEAM (Kevin Fox   - Developer) Battelle Pacific Northwest Laboratory
+

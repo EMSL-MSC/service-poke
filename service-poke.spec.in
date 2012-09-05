@@ -1,0 +1,55 @@
+Name: @PACKAGE_NAME@
+Version: @VERSION@
+Release: %{LOCALREVISION}
+Summary: Server and client for managing Pokes
+Group: System Environment/Base
+License: UNKNOWN
+Source: %{name}-%{version}.tar.gz
+BuildRoot: %{_tmppath}/@PACKAGE_NAME@-%{version}-%{release}
+BuildRequires: glib2-devel
+
+%prep
+%setup  -q
+
+%build
+%configure
+
+%install
+DESTDIR="$RPM_BUILD_ROOT" make install
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%description
+With this package, you can set up a listener that ensures that one and only one instance of a command is running at a time, and if its running already and someone requests another, only one more is scheduled immediately afterwards.
+
+%package -n     php-service-poke
+Summary:        php plugin for service poke
+Group:          System Environment/Base
+BuildRequires:	php-devel
+
+%description -n php-service-poke
+php plugin for service poke
+
+%package -n     python-service-poke
+Summary:        python plugin for service poke
+Group:          System Environment/Base
+BuildRequires:	python-devel
+
+%description -n python-service-poke
+python plugin for service poke
+
+%files -n php-service-poke
+/etc/php.d/service-poke.ini
+/usr/lib*/php*
+
+%files -n python-service-poke
+/usr/lib*/python*
+
+%files
+/usr/bin/*
+/usr/include/*
+/usr/lib*/libservice-poke*
+/usr/lib*/pkgconfig
+/usr/share/*
+
