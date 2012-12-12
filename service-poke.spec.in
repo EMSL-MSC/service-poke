@@ -6,7 +6,7 @@ Group: System Environment/Base
 License: UNKNOWN
 Source: %{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/@PACKAGE_NAME@-%{version}-%{release}
-BuildRequires: glib2-devel
+BuildRequires: glib2-devel, swig, python-devel, php-devel
 
 %prep
 %setup  -q
