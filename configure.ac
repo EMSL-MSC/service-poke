@@ -1,4 +1,4 @@
-AC_INIT([service-poke],[1.0.1],[Kevin.Fox@pnl.gov])
+AC_INIT([service-poke],[1.0.2],[Kevin.Fox@pnl.gov])
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 AC_CONFIG_SRCDIR([configure.ac])
 
