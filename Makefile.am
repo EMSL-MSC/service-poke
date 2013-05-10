@@ -34,3 +34,24 @@ rpm: dist
 
 rpms: rpm
 
+MOCKDIST=fedora-18-x86_64
+MOCK=/usr/bin/mock
+
+mock: dist
+	rm -rf packages/"$(MOCKDIST)" || true
+	mkdir -p packages/"$(MOCKDIST)"/srpms
+	mkdir -p packages/"$(MOCKDIST)"/bin
+	LOCALREVISION="`git rev-list HEAD | wc -l`"; \
+	if [ $$LOCALREVISION -lt ${OTHERREVISION} ]; then \
+		LOCALREVISION=${OTHERREVISION}; \
+	fi; \
+	LOCALREVISION="git$$LOCALREVISION"; \
+	echo revision="$$LOCALREVISION"; \
+	$(MOCK) -r "$(MOCKDIST)" --buildsrpm --spec service-poke.spec --sources "`pwd`" --define "LOCALREVISION `echo $$LOCALREVISION`"; \
+	mv "/var/lib/mock/$(MOCKDIST)/result/"*.src.rpm packages/"$(MOCKDIST)"/srpms/; \
+	$(MOCK) -r "$(MOCKDIST)" --result "$(CURDIR)"/packages/"$(MOCKDIST)"/bin --define "LOCALREVISION `echo $$LOCALREVISION`" "$(CURDIR)"/packages/"$(MOCKDIST)"/srpms/*.src.rpm; \
+if [ $$? -ne 0 ]; then \
+	code=$$?; \
+	cat "$(CURDIR)"/packages/"$(MOCKDIST)"/bin/build.log; \
+	exit $$code; \
+fi
